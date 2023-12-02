@@ -110,6 +110,7 @@ namespace TetrisFinal
                     }
                 }
             }
+        }
 =======
             // Mover la figura actual hacia abajo a intervalos regulares
                 if (Frame % (FrameToMoveFigure - Level) == 0)
