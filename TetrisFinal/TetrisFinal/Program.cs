@@ -279,6 +279,135 @@ namespace TetrisFinal
             ObtenerSiguienteFigura();
         }
 
+        // Comprobar colisiones para la figura actual
+        static bool Colision(bool[,] figura)
+        {
+            if (CurrentFigureCol > TetrisCols - figura.GetLength(1))
+            {
+                return true;
+            }
+
+            if (CurrentFigureRow + figura.GetLength(0) == TetrisRows)
+            {
+                return true;
+            }
+
+            for (int fila = 0; fila < figura.GetLength(0); fila++)
+            {
+                for (int col = 0; col < figura.GetLength(1); col++)
+                {
+                    if (figura[fila, col] && TetrisField[CurrentFigureRow + fila + 1, CurrentFigureCol + col])
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        // Dibujar la información del juego en la consola
+        static void DibInfo()
+        {
+            if (Score > HighScore)
+            {
+                HighScore = Score;
+            }
+
+            Write("Nivel:", 1, TetrisCols + 3);
+            Write(Level.ToString(), 3, TetrisCols + 3);
+            Write("Puntuacion:", 5, TetrisCols + 3);
+            Write(Score.ToString(), 7, TetrisCols + 3);
+            Write("Siguiente Figura:", 13, TetrisCols + 3);
+
+            DibSigFigura();
+        }
+
+        // Dibujar el campo de Tetris en la consola
+        static void DibujarTetrisCampo()
+        {
+            for (int fila = 0; fila < TetrisField.GetLength(0); fila++)
+            {
+                string linea = "";
+                for (int col = 0; col < TetrisField.GetLength(1); col++)
+                {
+                    if (TetrisField[fila, col])
+                    {
+                        linea += $"{FigureSymbol}";
+                    }
+                    else
+                    {
+                        linea += " ";
+                    }
+                }
+                Write(linea, fila + 1, 1);
+            }
+        }
+
+        // Dibujar la figura actual en la consola
+        static void DibujarFiguraActual()
+        {
+            for (int fila = 0; fila < CurrentFigure.GetLength(0); fila++)
+            {
+                for (int col = 0; col < CurrentFigure.GetLength(1); col++)
+                {
+                    if (CurrentFigure[fila, col])
+                    {
+                        Write($"{FigureSymbol}", fila + 1 + CurrentFigureRow, col + 1 + CurrentFigureCol);
+                    }
+                }
+            }
+        }
+
+        // Dibujar la próxima figura en la consola
+        static void DibSigFigura()
+        {
+            for (int fila = 0; fila < NextFigure.GetLength(0); fila++)
+            {
+                for (int col = 0; col < NextFigure.GetLength(1); col++)
+                {
+                    if (NextFigure[fila, col])
+                    {
+                        Write($"{FigureSymbol}", fila + 1 + NextFigureRow, col + 1 + NextFigureCol);
+                    }
+                }
+            }
+        }
+
+        // Dibujar el borde del juego en la consola
+        static void DibujarBorde()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            string primeraLinea = "╔";
+            primeraLinea += new string('═', TetrisCols);
+            primeraLinea += "╦";
+            primeraLinea += new string('═', InfoCols);
+            primeraLinea += "╗";
+
+            string lineaMedia = "";
+            for (int i = 0; i < TetrisRows; i++)
+            {
+                lineaMedia += "║";
+                lineaMedia += new string(' ', TetrisCols) + "║" + new string(' ', InfoCols) + "║" + "\n";
+            }
+
+            string ultimaLinea = "╚";
+            ultimaLinea += new string('═', TetrisCols);
+            ultimaLinea += "╩";
+            ultimaLinea += new string('═', InfoCols);
+            ultimaLinea += "╝";
+
+            string marcoBorde = primeraLinea + "\n" + lineaMedia + ultimaLinea;
+            Console.Write(marcoBorde);
+        }
+
+        // Escribir texto en una posición específica de la consola
+        static void Write(string texto, int fila, int col)
+        {
+            Console.SetCursorPosition(col, fila);
+            Console.Write(texto);
+        }
 
 
     }
