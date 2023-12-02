@@ -210,9 +210,7 @@ namespace TetrisFinal
                 Level = 10;
             }
         }
+
+
     }
-        }
-
-            
-
 }
