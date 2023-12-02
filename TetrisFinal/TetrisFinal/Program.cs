@@ -11,7 +11,7 @@ namespace TetrisFinal
     class Program
     {
 
-        // Definición de variables estáticas
+// Definición de variables estáticas
         static int TetrisRows = 21;
         static int TetrisCols = 10;
         static int InfoCols = 20;
@@ -48,7 +48,7 @@ namespace TetrisFinal
         static bool PlayGame = true;
         static int SongLevel = 2;
 
-<<<<<<< HEAD
+
         // Método principal
         static void Main(string[] args)
         {
@@ -403,13 +403,12 @@ static void DibujarBorde()
     string marcoBorde = primeraLinea + "\n" + lineaMedia + ultimaLinea;
     Console.Write(marcoBorde);
 }
-
     // Escribir texto en una posición específica de la consola
  static void Write(string texto, int fila, int col)
  {
      Console.SetCursorPosition(col, fila);
      Console.Write(texto);
  }
+
     }
 }
->>>>>>> 829147bbe443c8834988005574b5badc5513a6bd
