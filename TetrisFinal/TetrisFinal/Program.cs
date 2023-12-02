@@ -213,7 +213,73 @@ namespace TetrisFinal
             }
         }
 
+        // Rotar la figura actual en sentido horario
+ private static void RotarFiguraActual()
+ {
+     var nuevaFigura = new bool[CurrentFigure.GetLength(1), CurrentFigure.GetLength(0)];
+     for (int fila = 0; fila < CurrentFigure.GetLength(0); fila++)
+     {
+         for (int col = 0; col < CurrentFigure.GetLength(1); col++)
+         {
+             nuevaFigura[col, CurrentFigure.GetLength(0) - fila - 1] = CurrentFigure[fila, col];
+         }
+     }
+     if (!Colision(nuevaFigura))
+     {
+         CurrentFigure = nuevaFigura;
+     }
+ }
 
+ // Comprobar si hay líneas completas en el campo de Tetris
+ private static int ComprobarLIneasCompletas()
+ {
+     int lineas = 0;
+
+     for (int fila = 0; fila < TetrisField.GetLength(0); fila++)
+     {
+         bool filaCompleta = true;
+         for (int col = 0; col < TetrisField.GetLength(1); col++)
+         {
+             if (!TetrisField[fila, col])
+             {
+                 filaCompleta = false;
+                 break;
+             }
+         }
+
+         if (filaCompleta)
+         {
+             for (int filaAMover = fila; filaAMover >= 1; filaAMover--)
+             {
+                 for (int col = 0; col < TetrisField.GetLength(1); col++)
+                 {
+                     TetrisField[filaAMover, col] = TetrisField[filaAMover - 1, col];
+                 }
+             }
+
+             lineas++;
+         }
+     }
+     return lineas;
+ }
+
+ // Agregar la figura actual al campo de Tetris
+ private static void AgregarFiguraActual()
+ {
+     for (int fila = 0; fila < CurrentFigure.GetLength(0); fila++)
+     {
+         for (int col = 0; col < CurrentFigure.GetLength(1); col++)
+         {
+             if (CurrentFigure[fila, col])
+             {
+                 TetrisField[CurrentFigureRow + fila, CurrentFigureCol + col] = true;
+             }
+         }
+     }
+
+     CurrentFigure = NextFigure;
+     ObtenerSiguienteFigura();
+ }
 
         // Comprobar colisiones para la figura actual
 static bool Colision(bool[,] figura)
@@ -338,7 +404,12 @@ static void DibujarBorde()
     Console.Write(marcoBorde);
 }
 
-
+    // Escribir texto en una posición específica de la consola
+ static void Write(string texto, int fila, int col)
+ {
+     Console.SetCursorPosition(col, fila);
+     Console.Write(texto);
+ }
     }
 }
 >>>>>>> 829147bbe443c8834988005574b5badc5513a6bd
